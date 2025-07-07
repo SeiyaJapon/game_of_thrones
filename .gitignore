@@ -1,0 +1,35 @@
+# Composer
+/vendor/
+composer.lock
+
+# Node
+/node_modules/
+npm-debug.log
+yarn.lock
+package-lock.json
+
+# PHPStorm
+.idea/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Cachés
+/cache/
+*.cache
+
+# Entornos
+.env
+.env.*
+
+# Cobertura de tests
+/coverage/
+.phpunit.result.cache
+
+# Otros
+*.swp
+*.swo

@@ -1,0 +1,12 @@
+<?php
+
+declare (strict_types=1);
+
+namespace App\GOTCasting\Domain\Character;
+
+use App\ShareContext\Domain\ValueObjects\Single\AbstractStringValueObject;
+
+class CharacterName extends AbstractStringValueObject
+{
+
+}

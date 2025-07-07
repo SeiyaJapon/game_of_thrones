@@ -1,0 +1,90 @@
+version: '3.7'
+
+services:
+  whalar-web:
+    container_name: whalar-web
+    build:
+      context: ./docker/nginx
+      args:
+        user: whalar
+        UID: 501
+    ports:
+      - 350:80
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - whalar-be
+      - postgres
+    networks:
+      - whalar-network
+
+  whalar-be:
+    container_name: whalar-be
+    build:
+      context: ./docker/php
+      args:
+        user: whalar
+        UID: 501
+    environment:
+      PHP_IDE_CONFIG: serverName=Docker
+      PHP_XDEBUG_ENABLED: 1
+      XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9003 XDEBUG_CLIENT_HOST=host.docker.internal XDEBUG_CLIENT_PORT=9003
+    volumes:
+      - ./:/var/www
+      - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ~/.ssh/id_rsa:/home/appuser/.ssh/whalar
+    networks:
+      - whalar-network
+    depends_on:
+      - postgres
+      - rabbitmq
+      - elasticsearch
+
+  postgres:
+    image: postgres:15
+    container_name: whalar-postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: 123123
+      POSTGRES_DB: LitempDb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - whalar-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: whalar-rabbitmq
+    ports:
+      - 5672:5672  # para la app
+      - 15672:15672 # para acceder al panel web
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - whalar-network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
+    container_name: whalar-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - 9200:9200
+    networks:
+      - whalar-network
+
+volumes:
+  pgdata:
+
+networks:
+  whalar-network:
+    external: true
