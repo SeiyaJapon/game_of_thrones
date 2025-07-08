@@ -26,15 +26,19 @@ class ElasticsearchCharacterRepository implements CharacterRepositoryInterface
 
     public function index(Character $character): void
     {
-        $this->client->index([
-            'index' => $this->index,
-            'id'    => $character->getId()->value(),
-            'body'  => [
-                'id' => $character->getId()->value(),
-                'name' => $character->getName()->value(),
-                'actor_id' => $character->getActorId()?->value(),
-            ]
-        ]);
+        try {
+            $this->client->index([
+                'index' => $this->index,
+                'id'    => $character->getId()->value(),
+                'body'  => [
+                    'id' => $character->getId()->value(),
+                    'name' => $character->getName()->value(),
+                    'actor_id' => $character->getActorId()?->value(),
+                ]
+            ]);
+        } catch (\Exception $e) {
+            throw new \RuntimeException("Failed to index character: " . $e->getMessage(), $e->getCode(), $e);
+        }
     }
 
 

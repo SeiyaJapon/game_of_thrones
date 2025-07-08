@@ -7,8 +7,23 @@ ARG UID
 COPY ./php.ini /usr/local/etc/php/php.ini
 
 RUN apt-get update \
-    && apt-get install -y git acl openssl openssh-client wget zip vim librabbitmq-dev libssh-dev \
-    && apt-get install -y libpng-dev zlib1g-dev libzip-dev libxml2-dev libicu-dev bash \
+    && apt-get install -y \
+    git \
+    acl \
+    openssl \
+    openssh-client \
+    wget \
+    zip \
+    vim \
+    librabbitmq-dev \
+    libssh-dev \
+    libpq-dev \
+    libpng-dev \
+    zlib1g-dev \
+    libzip-dev \
+    libxml2-dev \
+    libicu-dev \
+    bash \
     curl \
     libjpeg-dev \
     libwebp-dev \
@@ -26,9 +41,9 @@ RUN apt-get update \
     telnet \
     openvpn \
     sudo \
-    libsodium-dev\
+    libsodium-dev \
     libsodium23 \
-    && docker-php-ext-install intl pdo pdo_mysql zip gd soap bcmath sockets \
+    && docker-php-ext-install intl pdo pdo_mysql zip gd soap bcmath sockets pdo_pgsql pgsql \
     && pecl install xdebug amqp \
     && docker-php-ext-enable --ini-name 05-opcache.ini opcache amqp xdebug
 

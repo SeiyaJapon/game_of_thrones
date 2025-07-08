@@ -13,4 +13,15 @@ class Character extends Model
 
     public $incrementing = false;
     protected $keyType = 'string';
+
+    //    Generación automática de UUID
+    //    protected static function boot() {
+    //        parent::boot();
+    //
+    //        static::creating(function ($model) {
+    //            if (empty($model->id)) {
+    //                $model->id = (string) Str::uuid();
+    //            }
+    //        });
+    //    }
 }

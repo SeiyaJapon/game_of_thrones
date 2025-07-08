@@ -42,4 +42,8 @@ return [
         'password' => env('RABBITMQ_PASSWORD', 'guest'),
     ],
 
+    'elasticsearch' => [
+        'host' => env('ELASTICSEARCH_HOST', 'localhost:9200'),
+    ],
+
 ];

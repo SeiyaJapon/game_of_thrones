@@ -22,8 +22,8 @@ class CreateCharacterController
     public function __invoke(Request $request): JsonResponse
     {
         $characterId = $request->input('characterId') ?? Uuid::uuid4()->toString();
-        $characterName = $request->input('characterName');
-        $actorId = $request->input('actorId');
+        $characterName = $request->input('name');
+        $actorId = $request->input('actorId') ?? null;
 
         $this->commandBus->handle(
             new CreateCharacterCommand(

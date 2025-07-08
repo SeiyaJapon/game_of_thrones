@@ -17,7 +17,7 @@ class CreateCharacterCommandHandler
         $this->createCharacterService = $createCharacterService;
     }
 
-    public function __invoke(CreateCharacterCommand $command): void
+    public function handle(CreateCharacterCommand $command): void
     {
         $this->createCharacterService->execute(
             new CharacterId($command->id()),

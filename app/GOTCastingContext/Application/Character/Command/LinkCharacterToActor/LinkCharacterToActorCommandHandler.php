@@ -17,7 +17,7 @@ class LinkCharacterToActorCommandHandler
         $this->service = $service;
     }
 
-    public function __invoke(LinkCharacterToActorCommand $command): void
+    public function handle(LinkCharacterToActorCommand $command): void
     {
         $characterId = new CharacterId($command->characterId());
         $actorId = new ActorId($command->actorId());

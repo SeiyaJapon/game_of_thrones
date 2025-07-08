@@ -1,0 +1,27 @@
+# Ignora dependencias de Composer y npm (se instalarán en el contenedor)
+vendor/
+node_modules/
+
+# Archivos de configuración y entorno locales
+.env
+.env.*
+
+# Archivos de logs y cachés
+*.log
+storage/
+tmp/
+.cache/
+.idea/
+.vscode/
+.DS_Store
+
+# Archivos de control de versiones
+.git
+.gitignore
+
+# Otros archivos y carpetas temporales
+*.swp
+*.swo
+npm-debug.log
+yarn-error.log
+coverage/

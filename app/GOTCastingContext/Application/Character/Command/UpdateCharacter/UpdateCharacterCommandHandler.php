@@ -18,7 +18,7 @@ class UpdateCharacterCommandHandler
         $this->updateCharacterByIdService = $updateCharacterService;
     }
 
-    public function __invoke(UpdateCharacterCommand $command): void
+    public function handle(UpdateCharacterCommand $command): void
     {
         $this->updateCharacterByIdService->execute(
             new CharacterId($command->id()),

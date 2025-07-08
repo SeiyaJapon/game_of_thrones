@@ -9,6 +9,7 @@ use App\GOTCastingContext\Domain\Character\Character;
 use App\GOTCastingContext\Domain\Character\CharacterId;
 use App\GOTCastingContext\Domain\Character\CharacterName;
 use App\GOTCastingContext\Domain\Character\CharacterRepositoryInterface;
+use App\GOTCastingContext\Domain\Character\Exception\CharacterNotFoundException;
 use App\GOTCastingContext\Infrastructure\Character\Messaging\CharacterCreatedProducer;
 use App\GOTCastingContext\Infrastructure\Character\Messaging\CharacterDeletedProducer;
 use App\GOTCastingContext\Infrastructure\Character\Messaging\CharacterUpdatedProducer;
@@ -35,7 +36,7 @@ class PostgresCharacterRepository implements CharacterRepositoryInterface
         $eloquentCharacter = EloquentCharacter::find($id->value());
 
         if (!$eloquentCharacter) {
-            return null;
+            throw new CharacterNotFoundException($id->value());
         }
 
         return new Character(

@@ -16,7 +16,7 @@ class DeleteCharacterCommandHandler
         $this->deleteCharacterByIdService = $deleteCharacterByIdService;
     }
 
-    public function __invoke(DeleteCharacterCommand $command): void
+    public function handle(DeleteCharacterCommand $command): void
     {
         $this->deleteCharacterByIdService->execute(
             new CharacterId($command->id())

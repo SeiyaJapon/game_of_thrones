@@ -29,7 +29,7 @@ class PostgresActorRepository implements ActorRepositoryInterface
         $this->actorDeletedProducer = $actorDeletedProducer;
     }
 
-    public function findById(ActorId $id): ?Actor
+    public function findById(ActorId $id): Actor
     {
         // TODO: Implement findById() method.
     }

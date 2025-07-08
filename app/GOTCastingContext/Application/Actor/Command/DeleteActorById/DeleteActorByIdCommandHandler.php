@@ -15,7 +15,7 @@ class DeleteActorByIdCommandHandler
         $this->service = $service;
     }
 
-    public function __invoke(DeleteActorByIdCommand $command): void
+    public function handle(DeleteActorByIdCommand $command): void
     {
         $this->service->execute($command->getActorId());
     }

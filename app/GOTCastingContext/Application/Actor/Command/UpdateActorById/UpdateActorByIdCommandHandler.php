@@ -17,7 +17,7 @@ class UpdateActorByIdCommandHandler
         $this->service = $service;
     }
 
-    public function __invoke(UpdateActorByIdCommand $command): void
+    public function handle(UpdateActorByIdCommand $command): void
     {
         $this->service->execute(
             new ActorId($command->actorId()),
