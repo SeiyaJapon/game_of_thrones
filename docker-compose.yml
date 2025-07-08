@@ -48,7 +48,7 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: 123123
-      POSTGRES_DB: LitempDb
+      POSTGRES_DB: whalarDb
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
