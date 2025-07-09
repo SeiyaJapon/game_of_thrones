@@ -14,4 +14,8 @@ interface CharacterRepositoryInterface
     public function update(Character $character): void;
     public function delete(CharacterId $id): void;
     public function linkToActor(CharacterId $characterId, ActorId $actorId): void;
+    /**
+     * @return Character[]
+     */
+    public function searchByQuery(string $query): array;
 }

@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Actor extends Model
 {
-    use SoftDeletes;
-
-    protected $fillable = ['id', 'name', 'birthdate', 'nationality'];
+    protected $fillable = ['id', 'name', 'biography'];
 
     public $incrementing = false;
     protected $keyType = 'string';

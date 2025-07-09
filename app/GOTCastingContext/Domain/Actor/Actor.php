@@ -59,9 +59,9 @@ class Actor extends AggregateRoot
     public function toArray(): array
     {
         return [
-            'id' => (string) $this->id,
-            'name' => (string) $this->name,
-            'biography' => $this->biography,
+            'id' => $this->getId()->value(),
+            'name' => $this->getName()->value(),
+            'biography' => $this->getBiography()
         ];
     }
 }

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\GOTCastingContext\Application\Character\Query\SearchCharacters;
 
-use App\GOTCasting\Domain\Character\Service\SearchCharactersService;
+use App\GOTCastingContext\Domain\Actor\Service\SearchActorsService;
+use App\GOTCastingContext\Domain\Character\Service\SearchCharactersService;
 
 class SearchCharactersQueryHandler
 {
@@ -15,7 +16,7 @@ class SearchCharactersQueryHandler
         $this->searchCharactersService = $searchCharactersService;
     }
 
-    public function ask(SearchCharactersQuery $query): SearchCharactersQueryResult
+    public function handle(SearchCharactersQuery $query): SearchCharactersQueryResult
     {
         return new SearchCharactersQueryResult(
             $this->searchCharactersService->execute($query->query())

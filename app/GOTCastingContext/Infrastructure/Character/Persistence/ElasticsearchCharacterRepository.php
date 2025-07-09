@@ -41,7 +41,6 @@ class ElasticsearchCharacterRepository implements CharacterRepositoryInterface
         }
     }
 
-
     public function findById(CharacterId $id): Character
     {
         try {
@@ -118,6 +117,11 @@ class ElasticsearchCharacterRepository implements CharacterRepositoryInterface
         // TODO: Implement updateById() method.
     }
 
+    public function linkToActor(CharacterId $characterId, ActorId $actorId): void
+    {
+        throw new \BadMethodCallException("Write operations are not allowed in ElasticsearchCharacterRepository");
+    }
+
     public function searchByQuery(string $query): array
     {
         $response = $this->client->search([
@@ -148,10 +152,5 @@ class ElasticsearchCharacterRepository implements CharacterRepositoryInterface
         }
 
         return $characters;
-    }
-
-    public function linkToActor(CharacterId $characterId, ActorId $actorId): void
-    {
-        throw new \BadMethodCallException("Write operations are not allowed in ElasticsearchCharacterRepository");
     }
 }

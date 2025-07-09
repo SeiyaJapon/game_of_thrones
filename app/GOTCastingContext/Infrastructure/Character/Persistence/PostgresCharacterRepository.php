@@ -124,11 +124,6 @@ class PostgresCharacterRepository implements CharacterRepositoryInterface
         ]);
     }
 
-    public function searchByQuery(string $query): array
-    {
-        throw new \BadMethodCallException("Search is not allowed in PostgresCharacterRepository (use Elasticsearch)");
-    }
-
     public function linkToActor(CharacterId $characterId, ActorId $actorId): void
     {
         $eloquentCharacter = EloquentCharacter::find($characterId->value());
@@ -149,4 +144,8 @@ class PostgresCharacterRepository implements CharacterRepositoryInterface
         ]);
     }
 
+    public function searchByQuery(string $query): array
+    {
+        throw new \BadMethodCallException("Search is not allowed in PostgresCharacterRepository (use Elasticsearch)");
+    }
 }

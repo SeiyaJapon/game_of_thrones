@@ -15,7 +15,7 @@ class SearchActorsQueryHandler
         $this->searchActorsService = $searchActorsService;
     }
 
-    public function __invoke(SearchActorsQuery $query): SearchActorsQueryResult
+    public function handle(SearchActorsQuery $query): SearchActorsQueryResult
     {
         return new SearchActorsQueryResult(
             $this->searchActorsService->execute($query->query())

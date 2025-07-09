@@ -23,6 +23,23 @@ class ElasticsearchActorRepository implements ActorRepositoryInterface
         $this->index = $index;
     }
 
+    public function index(Actor $actor): void
+    {
+        try {
+            $this->client->index([
+                'index' => $this->index,
+                'id'    => $actor->getId()->value(),
+                'body'  => [
+                    'id' => $actor->getId()->value(),
+                    'name' => $actor->getName()->value(),
+                    'biography' => $actor->getBiography()
+                ]
+            ]);
+        } catch (\Exception $e) {
+            throw new \RuntimeException("Failed to index actor: " . $e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
     public function findById(ActorId $id): Actor
     {
         try {
@@ -89,7 +106,22 @@ class ElasticsearchActorRepository implements ActorRepositoryInterface
 
     public function delete(ActorId $id): void
     {
-        throw new \BadMethodCallException("Write operations are not allowed in ElasticsearchActorRepository");
+        try {
+            $response = $this->client->delete([
+                'index' => $this->index,
+                'id'    => $id->value(),
+                'client' => [
+                    'ignore' => [404]
+                ]
+            ]);
+
+            if (!isset($response['result']) || ($response['result'] !== 'deleted' && $response['result'] !== 'not_found')) {
+                throw new \RuntimeException("Failed to delete actor from Elasticsearch: " . json_encode($response));
+            }
+
+        } catch (\Exception $e) {
+            throw new \RuntimeException("Error deleting actor from Elasticsearch: " . $e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     public function updateById(ActorId $actorId, ?ActorName $actorName, ?string $biography): void

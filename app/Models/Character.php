@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Character extends Model
 {
-    use SoftDeletes;
-
     protected $fillable = ['id', 'name', 'biography', 'actor_id'];
 
     public $incrementing = false;

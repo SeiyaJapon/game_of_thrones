@@ -7,7 +7,7 @@ namespace App\GOTCastingContext\Infrastructure\Actor\Http;
 use App\GOTCastingContext\Application\Actor\Command\CreateActor\CreateActorCommand;
 use App\ShareContext\Infrastructure\CommandBus\CommandBusInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
 
 class CreateActorController
@@ -22,7 +22,7 @@ class CreateActorController
     public function __invoke(Request $request): JsonResponse
     {
         $actorId = $request->input('actorId') ?? Uuid::uuid4()->toString();
-        $actorName = $request->input('actorName');
+        $actorName = $request->input('name');
         $biography = $request->input('biography');
 
         $this->commandBus->handle(

@@ -16,7 +16,7 @@ class GetCharacterByIdQueryHandler
         $this->findCharacterByIdService = $findCharacterByIdService;
     }
 
-    public function ask(GetCharacterByIdQuery $query): GetCharacterByIdQueryResult
+    public function handle(GetCharacterByIdQuery $query): GetCharacterByIdQueryResult
     {
         return new GetCharacterByIdQueryResult(
             $this->findCharacterByIdService->execute(

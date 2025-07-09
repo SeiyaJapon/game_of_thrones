@@ -16,7 +16,7 @@ class GetActorByIdQueryHandler
         $this->findActorByIdService = $findActorByIdService;
     }
 
-    public function ask(GetActorByIdQuery $query): GetActorByIdQueryResult
+    public function handle(GetActorByIdQuery $query): GetActorByIdQueryResult
     {
         return new GetActorByIdQueryResult(
             $this->findActorByIdService->execute(

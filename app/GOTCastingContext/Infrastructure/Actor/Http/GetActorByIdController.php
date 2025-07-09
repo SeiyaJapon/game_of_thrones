@@ -24,7 +24,7 @@ class GetActorByIdController
         );
 
         return new JsonResponse(
-            $actor,
+            $actor->result(),
             JsonResponse::HTTP_OK
         );
     }

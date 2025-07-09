@@ -15,7 +15,7 @@ class ListCharactersQueryHandler
         $this->listCharactersService = $listCharactersService;
     }
 
-    public function ask(ListCharactersQuery $query): ListCharactersQueryResult
+    public function handle(ListCharactersQuery $query): ListCharactersQueryResult
     {
         return new ListCharactersQueryResult(
             $this->listCharactersService->execute()

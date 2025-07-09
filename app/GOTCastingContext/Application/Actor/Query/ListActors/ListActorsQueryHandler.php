@@ -15,7 +15,7 @@ class ListActorsQueryHandler
         $this->listActorsService = $listActorsService;
     }
 
-    public function __invoke(ListActorsQuery $query): ListActorsQueryResult
+    public function handle(ListActorsQuery $query): ListActorsQueryResult
     {
         return new ListActorsQueryResult(
             $this->listActorsService->execute()

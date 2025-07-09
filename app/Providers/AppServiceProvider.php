@@ -14,15 +14,21 @@ use App\GOTCastingContext\Domain\Character\Service\DeleteCharacterByIdService;
 use App\GOTCastingContext\Domain\Character\Service\FindCharacterByIdService;
 use App\GOTCastingContext\Domain\Character\Service\LinkCharacterToActorService;
 use App\GOTCastingContext\Domain\Character\Service\ListCharactersService;
+use App\GOTCastingContext\Domain\Character\Service\SearchCharactersService;
 use App\GOTCastingContext\Domain\Character\Service\UpdateCharacterByIdService;
+use App\GOTCastingContext\Infrastructure\Actor\Messaging\ActorCreatedConsumer;
 use App\GOTCastingContext\Infrastructure\Actor\Messaging\ActorCreatedProducer;
+use App\GOTCastingContext\Infrastructure\Actor\Messaging\ActorDeletedConsumer;
 use App\GOTCastingContext\Infrastructure\Actor\Messaging\ActorDeletedProducer;
+use App\GOTCastingContext\Infrastructure\Actor\Messaging\ActorUpdatedConsumer;
 use App\GOTCastingContext\Infrastructure\Actor\Messaging\ActorUpdatedProducer;
 use App\GOTCastingContext\Infrastructure\Actor\Persistence\ElasticsearchActorRepository;
 use App\GOTCastingContext\Infrastructure\Actor\Persistence\PostgresActorRepository;
 use App\GOTCastingContext\Infrastructure\Character\Messaging\CharacterCreatedConsumer;
 use App\GOTCastingContext\Infrastructure\Character\Messaging\CharacterCreatedProducer;
+use App\GOTCastingContext\Infrastructure\Character\Messaging\CharacterDeletedConsumer;
 use App\GOTCastingContext\Infrastructure\Character\Messaging\CharacterDeletedProducer;
+use App\GOTCastingContext\Infrastructure\Character\Messaging\CharacterUpdatedConsumer;
 use App\GOTCastingContext\Infrastructure\Character\Messaging\CharacterUpdatedProducer;
 use App\GOTCastingContext\Infrastructure\Character\Persistence\ElasticsearchCharacterRepository;
 use App\GOTCastingContext\Infrastructure\Character\Persistence\PostgresCharacterRepository;
@@ -131,6 +137,51 @@ class AppServiceProvider extends ServiceProvider
                 config('services.rabbitmq.password')
             );
         });
+        $this->app->bind(CharacterUpdatedConsumer::class, function ($app) {
+            return new CharacterUpdatedConsumer(
+                $app->make(ElasticsearchCharacterRepository::class),
+                config('services.rabbitmq.host'),
+                config('services.rabbitmq.port'),
+                config('services.rabbitmq.user'),
+                config('services.rabbitmq.password')
+            );
+        });
+        $this->app->bind(CharacterDeletedConsumer::class, function ($app) {
+            return new CharacterDeletedConsumer(
+                $app->make(ElasticsearchCharacterRepository::class),
+                config('services.rabbitmq.host'),
+                config('services.rabbitmq.port'),
+                config('services.rabbitmq.user'),
+                config('services.rabbitmq.password')
+            );
+        });
+        $this->app->bind(ActorCreatedConsumer::class, function ($app) {
+            return new ActorCreatedConsumer(
+                $app->make(ElasticsearchActorRepository::class),
+                config('services.rabbitmq.host'),
+                config('services.rabbitmq.port'),
+                config('services.rabbitmq.user'),
+                config('services.rabbitmq.password')
+            );
+        });
+        $this->app->bind(ActorUpdatedConsumer::class, function ($app) {
+            return new ActorUpdatedConsumer(
+                $app->make(ElasticsearchActorRepository::class),
+                config('services.rabbitmq.host'),
+                config('services.rabbitmq.port'),
+                config('services.rabbitmq.user'),
+                config('services.rabbitmq.password')
+            );
+        });
+        $this->app->bind(ActorDeletedConsumer::class, function ($app) {
+            return new ActorDeletedConsumer(
+                $app->make(ElasticsearchActorRepository::class),
+                config('services.rabbitmq.host'),
+                config('services.rabbitmq.port'),
+                config('services.rabbitmq.user'),
+                config('services.rabbitmq.password')
+            );
+        });
 
         // Actor services (command side)
         $this->app->bind(CreateActorService::class, function ($app) {
@@ -184,6 +235,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(UpdateCharacterByIdService::class, function ($app) {
             return new UpdateCharacterByIdService($app->make(CharacterRepositoryInterface::class));
+        });
+
+        $this->app->bind(SearchCharactersService::class, function ($app) {
+            return new SearchCharactersService($app->make(ElasticsearchCharacterRepository::class));
         });
     }
 

@@ -21,6 +21,6 @@ class ListCharactersController
     {
         $characters = $this->queryBus->ask(new ListCharactersQuery());
 
-        return new JsonResponse($characters, JsonResponse::HTTP_OK);
+        return new JsonResponse($characters->result(), JsonResponse::HTTP_OK);
     }
 }

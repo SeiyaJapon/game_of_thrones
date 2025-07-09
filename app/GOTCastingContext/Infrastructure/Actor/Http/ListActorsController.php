@@ -24,7 +24,7 @@ class ListActorsController
         );
 
         return new JsonResponse(
-            $actors,
+            $actors->result(),
             JsonResponse::HTTP_OK
         );
     }

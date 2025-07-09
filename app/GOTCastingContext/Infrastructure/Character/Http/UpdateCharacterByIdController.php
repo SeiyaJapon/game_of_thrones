@@ -23,8 +23,8 @@ class UpdateCharacterByIdController
         $this->commandBus->handle(
             new UpdateCharacterCommand(
                 $characterId,
-                $request->get('name'),
-                $request->get('biography')
+                $request->input('name'),
+                $request->input('actor_id')
             )
         );
 

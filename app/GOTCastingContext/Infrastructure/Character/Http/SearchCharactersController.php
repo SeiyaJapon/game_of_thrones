@@ -20,12 +20,12 @@ class SearchCharactersController
 
     public function __invoke(Request $request): JsonResponse
     {
-        $query = $request->get('q', '');
+        $query = $request->get('query', '');
 
         $results = $this->queryBus->ask(
             new SearchCharactersQuery($query)
         );
 
-        return new JsonResponse($results, JsonResponse::HTTP_OK);
+        return new JsonResponse($results->result(), JsonResponse::HTTP_OK);
     }
 }

@@ -41,11 +41,11 @@ class PostgresActorRepository implements ActorRepositoryInterface
 
     public function save(Actor $actor): void
     {
-        EloquentActor::create(
-            $actor->getId()->value(),
-            $actor->getName()->value(),
-            $actor->getBiography()
-        );
+        EloquentActor::create([
+            'id' => $actor->getId()->value(),
+            'name' => $actor->getName()->value(),
+            'biography' => $actor->getBiography()
+        ]);
 
         $this->actorCreatedProducer->publish([
             'event' => 'ActorCreated',
@@ -92,11 +92,11 @@ class PostgresActorRepository implements ActorRepositoryInterface
     {
         $eloquentActor = EloquentActor::find($id->value());
 
-        if ($eloquentActor) {
-            $eloquentActor->delete();
-        } else {
+        if (!$eloquentActor) {
             throw new \Exception("Actor not found");
         }
+
+        $eloquentActor->delete();
 
         $this->actorDeletedProducer->publish([
             'event' => 'ActorDeleted',

@@ -23,6 +23,6 @@ class GetCharacterByIdController
             new GetCharacterByIdQuery($characterId)
         );
 
-        return new JsonResponse($character, JsonResponse::HTTP_OK);
+        return new JsonResponse($character->result(), JsonResponse::HTTP_OK);
     }
 }

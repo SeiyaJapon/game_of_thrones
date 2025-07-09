@@ -27,7 +27,7 @@ class SearchActorsController
         );
 
         return new JsonResponse(
-            $result,
+            $result->result(),
             JsonResponse::HTTP_OK
         );
     }

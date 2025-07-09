@@ -57,6 +57,15 @@ install-components:
 	docker compose exec $(DOCKER_BE) php artisan passport:install --uuids
 	docker compose exec $(DOCKER_BE) php artisan migrate --seed
 
+migrate:
+	docker compose exec $(DOCKER_BE) php artisan migrate
+
+seed:
+	docker compose exec $(DOCKER_BE) php artisan migrate
+
+consumer:
+	docker compose exec $(DOCKER_BE) php artisan rabbitmq:consume-all
+
 laravel-prepare:
 	docker compose exec $(DOCKER_BE) composer update
 
@@ -78,7 +87,10 @@ create-project: ## create project
 dumpauto:
 	docker compose exec $(DOCKER_BE) composer dumpautoload
 
-fresh: ## php artisan migrate:fresh --seed
+fresh: ## php artisan migrate:fresh
+	docker compose exec $(DOCKER_BE) php artisan migrate:fresh
+
+fresh-seed: ## php artisan migrate:fresh --seed
 	docker compose exec $(DOCKER_BE) php artisan migrate:fresh --seed
 
 clear-all:

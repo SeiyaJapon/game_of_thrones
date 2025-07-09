@@ -7,7 +7,7 @@ namespace App\GOTCastingContext\Infrastructure\Actor\Http;
 use App\GOTCastingContext\Application\Actor\Command\UpdateActorById\UpdateActorByIdCommand;
 use App\ShareContext\Infrastructure\CommandBus\CommandBusInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class UpdateActorByIdController
 {
@@ -20,7 +20,7 @@ class UpdateActorByIdController
 
     public function __invoke(string $actorId, Request $request): JsonResponse
     {
-        $actorName = $request->input('actorName');
+        $actorName = $request->input('name');
         $biography = $request->input('biography');
 
         $this->commandBus->handle(
@@ -28,7 +28,7 @@ class UpdateActorByIdController
         );
 
         return new JsonResponse(
-            ['message' => 'Actor actualizado correctamente'],
+            ['message' => 'Actor updated successfully'],
             JsonResponse::HTTP_OK
         );
     }
