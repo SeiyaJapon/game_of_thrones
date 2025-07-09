@@ -90,23 +90,37 @@ All your services must pass... or be sent to the Wall.
 ## 📡 API Endpoints Summary
 
 ### 🎭 Actors
-- `POST /actors` – Add actor
-- `GET /actors/{id}` – Get actor by ID
-- `PUT /actors/{id}` – Update actor
-- `DELETE /actors/{id}` – Delete actor
-- `GET /actors` – List all
-- `GET /actors/search?q=tyrion` – Search by query
+- `POST api/actors` – Add actor
+- `GET api/actors/{id}` – Get actor by ID
+- `PUT api/actors/{id}` – Update actor
+- `DELETE api/actors/{id}` – Delete actor
+- `GET api/actors/list` – List all
+- `POST api/actors/search` – Search by query
+
+  **Body example:**
+  ```json
+  {
+    "q": "tyrion"
+  }
+  ```
 
 ### 🧝 Characters
-- `POST /characters` – Add character
-- `GET /characters/{id}` – Get character by ID
-- `PUT /characters/{id}` – Update character
-- `DELETE /characters/{id}` – Delete character
-- `GET /characters` – List all
-- `GET /characters/search?q=stark` – Search by query
+- `POST api/characters` – Add character
+- `GET api/characters/{id}` – Get character by ID
+- `PUT api/characters/{id}` – Update character
+- `DELETE api/characters/{id}` – Delete character
+- `GET api/characters/list` – List all
+- `POST api/characters/search` – Search by query
+
+  **Body example:**
+  ```json
+  {
+    "q": "stark"
+  }
+  ```
 
 ### ⛓️ Linking
-- `POST /characters/{characterId}/link-to-actor/{actorId}` – Assign an actor to a character (No magic, just plain drama)
+- `POST api/characters/{characterId}/link-to-actor/{actorId}` – Assign an actor to a character (No magic, just plain drama)
 
 ---
 
