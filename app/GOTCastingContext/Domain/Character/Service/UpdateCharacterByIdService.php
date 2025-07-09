@@ -19,14 +19,31 @@ class UpdateCharacterByIdService
     }
 
     public function execute(
-        CharacterId $id,
+        CharacterId $characterId,
         ?CharacterName $name = null,
-        ?ActorId $actorId = null
+        ?ActorId $actorId = null,
+        ?string $houseName = null,
+        ?string $nickname = null,
+        ?string $characterImageThumb = null,
+        ?string $characterImageFull = null,
+        ?array $siblings = null,
+        ?array $parents = null,
+        ?array $killed = null,
+        ?array $guardedBy = null
     ): void {
         $this->characterRepository->updateById(
-            $id,
+            $characterId,
             $name,
-            $actorId?->value()
+            $actorId,
+            $houseName,
+            $nickname,
+            $characterImageThumb,
+            $characterImageFull,
+            $siblings,
+            $parents,
+            $killed,
+            $guardedBy
         );
     }
+
 }

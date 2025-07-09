@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('characters', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->text('biography')->nullable();
             $table->uuid('actor_id')->nullable();
             $table->softDeletes();
             $table->timestamps();

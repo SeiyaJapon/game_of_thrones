@@ -29,11 +29,19 @@ class ElasticsearchCharacterRepository implements CharacterRepositoryInterface
         try {
             $this->client->index([
                 'index' => $this->index,
-                'id'    => $character->getId()->value(),
-                'body'  => [
+                'id' => $character->getId()->value(),
+                'body' => [
                     'id' => $character->getId()->value(),
                     'name' => $character->getName()->value(),
                     'actor_id' => $character->getActorId()?->value(),
+                    'house_name' => $character->getHouseName(),
+                    'nickname' => $character->getNickname(),
+                    'character_image_thumb' => $character->getCharacterImageThumb(),
+                    'character_image_full' => $character->getCharacterImageFull(),
+                    'siblings' => $character->getSiblings() ?? [],
+                    'parents' => $character->getParents() ?? [],
+                    'killed' => $character->getKilled() ?? [],
+                    'guarded_by' => $character->getGuardedBy() ?? []
                 ]
             ]);
         } catch (\Exception $e) {
@@ -58,9 +66,14 @@ class ElasticsearchCharacterRepository implements CharacterRepositoryInterface
             return new Character(
                 new CharacterId($source['id']),
                 new CharacterName($source['name']),
-                $source['biography'] ?? null,
-                $source['actor_id'] ?? null
+                isset($source['actor_id']) ? new ActorId($source['actor_id']) : null,
+                $source['house_name'] ?? null,
+                $source['nickname'] ?? null,
+                $source['character_image_thumb'] ?? null,
+                $source['character_image_full'] ?? null,
+                $source['character_link'] ?? null
             );
+
         } catch (\Exception $e) {
             if ($e->getCode() === Response::HTTP_NOT_FOUND) {
                 throw new CharacterNotFoundException($id->value());
@@ -89,8 +102,12 @@ class ElasticsearchCharacterRepository implements CharacterRepositoryInterface
             $characters[] = new Character(
                 new CharacterId($source['id']),
                 new CharacterName($source['name']),
-                $source['biography'] ?? null,
-                $source['actor_id'] ?? null
+                isset($source['actor_id']) ? new ActorId($source['actor_id']) : null,
+                $source['house_name'] ?? null,
+                $source['nickname'] ?? null,
+                $source['character_image_thumb'] ?? null,
+                $source['character_image_full'] ?? null,
+                $source['character_link'] ?? null
             );
         }
 

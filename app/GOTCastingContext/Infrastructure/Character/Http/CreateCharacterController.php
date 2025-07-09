@@ -21,15 +21,19 @@ class CreateCharacterController
 
     public function __invoke(Request $request): JsonResponse
     {
-        $characterId = $request->input('characterId') ?? Uuid::uuid4()->toString();
-        $characterName = $request->input('name');
-        $actorId = $request->input('actorId') ?? null;
-
         $this->commandBus->handle(
             new CreateCharacterCommand(
-                $characterId,
-                $characterName,
-                $actorId
+                $request->input('characterId') ?? Uuid::uuid4()->toString(),
+                $request->input('characterName'),
+                $request->input('actorId'),
+                $request->input('houseName'),
+                $request->input('nickname'),
+                $request->input('characterImageThumb'),
+                $request->input('characterImageFull'),
+                $request->input('siblings', []),
+                $request->input('parents', []),
+                $request->input('killed', []),
+                $request->input('guardedBy', [])
             )
         );
 

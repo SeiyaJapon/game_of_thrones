@@ -63,6 +63,14 @@ class PostgresCharacterRepository implements CharacterRepositoryInterface
             'id' => $character->getId()->value(),
             'name' => $character->getName()->value(),
             'actor_id' => $character->getActorId()?->value(),
+            'house_name' => $character->getHouseName(),
+            'nickname' => $character->getNickname(),
+            'character_image_thumb' => $character->getCharacterImageThumb(),
+            'character_image_full' => $character->getCharacterImageFull(),
+            'siblings' => json_encode($character->getSiblings()),
+            'parents' => json_encode($character->getParents()),
+            'killed' => json_encode($character->getKilled()),
+            'guarded_by' => json_encode($character->getGuardedBy()),
         ]);
 
         $this->characterCreatedProducer->publish([
@@ -70,29 +78,74 @@ class PostgresCharacterRepository implements CharacterRepositoryInterface
             'data' => [
                 'id' => $character->getId()->value(),
                 'name' => $character->getName()->value(),
-                'actor_id' => $character->getActorId()?->value()
+                'actor_id' => $character->getActorId()?->value(),
+                'house_name' => $character->getHouseName(),
+                'nickname' => $character->getNickname(),
+                'character_image_thumb' => $character->getCharacterImageThumb(),
+                'character_image_full' => $character->getCharacterImageFull(),
+                'siblings' => $character->getSiblings(),
+                'parents' => $character->getParents(),
+                'killed' => $character->getKilled(),
+                'guarded_by' => $character->getGuardedBy(),
             ]
         ]);
     }
+
 
     public function update(Character $character): void
     {
         // TODO: Implement linkToActor() method.
     }
 
-    public function updateById(CharacterId $characterId, ?CharacterName $characterName, ?string $actorId): void
-    {
+    public function updateById(
+        CharacterId $characterId,
+        ?CharacterName $name = null,
+        ?ActorId $actorId = null,
+        ?string $houseName = null,
+        ?string $nickname = null,
+        ?string $characterImageThumb = null,
+        ?string $characterImageFull = null,
+        ?array $siblings = null,
+        ?array $parents = null,
+        ?array $killed = null,
+        ?array $guardedBy = null
+    ): void {
         $eloquentCharacter = EloquentCharacter::find($characterId->value());
 
         if (!$eloquentCharacter) {
             throw new \Exception("Character not found");
         }
 
-        if ($characterName !== null) {
-            $eloquentCharacter->name = $characterName->value();
+        if ($name !== null) {
+            $eloquentCharacter->name = $name->value();
         }
-
-        $eloquentCharacter->actor_id = $actorId;
+        if ($actorId !== null) {
+            $eloquentCharacter->actor_id = $actorId->value();
+        }
+        if ($houseName !== null) {
+            $eloquentCharacter->house_name = $houseName;
+        }
+        if ($nickname !== null) {
+            $eloquentCharacter->nickname = $nickname;
+        }
+        if ($characterImageThumb !== null) {
+            $eloquentCharacter->character_image_thumb = $characterImageThumb;
+        }
+        if ($characterImageFull !== null) {
+            $eloquentCharacter->character_image_full = $characterImageFull;
+        }
+        if ($siblings !== null) {
+            $eloquentCharacter->siblings = $siblings;
+        }
+        if ($parents !== null) {
+            $eloquentCharacter->parents = $parents;
+        }
+        if ($killed !== null) {
+            $eloquentCharacter->killed = $killed;
+        }
+        if ($guardedBy !== null) {
+            $eloquentCharacter->guarded_by = $guardedBy;
+        }
 
         $eloquentCharacter->save();
 
@@ -100,8 +153,16 @@ class PostgresCharacterRepository implements CharacterRepositoryInterface
             'event' => 'CharacterUpdated',
             'data' => [
                 'id' => $characterId->value(),
-                'name' => $characterName?->value(),
-                'actor_id' => $actorId
+                'name' => $name?->value(),
+                'actor_id' => $actorId?->value(),
+                'house_name' => $houseName,
+                'nickname' => $nickname,
+                'character_image_thumb' => $characterImageThumb,
+                'character_image_full' => $characterImageFull,
+                'siblings' => $siblings,
+                'parents' => $parents,
+                'killed' => $killed,
+                'guarded_by' => $guardedBy,
             ]
         ]);
     }

@@ -3,14 +3,34 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Character extends Model
 {
-    protected $fillable = ['id', 'name', 'biography', 'actor_id'];
+    public $fillable = [
+        'id',
+        'name',
+        'biography',
+        'actor_id',
+        'house_name',
+        'nickname',
+        'character_image_thumb',
+        'character_image_full',
+        'character_link',
+        'siblings',
+        'parents',
+        'killed',
+        'guarded_by',
+    ];
 
     public $incrementing = false;
-    protected $keyType = 'string';
+    public $keyType = 'string';
+
+    public $casts = [
+        'siblings' => 'array',
+        'parents' => 'array',
+        'killed' => 'array',
+        'guarded_by' => 'array',
+    ];
 
     //    Generación automática de UUID
     //    protected static function boot() {

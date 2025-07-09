@@ -67,6 +67,6 @@ class ConsumeAllRabbitMQ extends Command
                 $process->stop(10);
             }
         }
-        $this->info('All child processes have been stopped.');
+//        $this->info('All child processes have been stopped.');
     }
 }

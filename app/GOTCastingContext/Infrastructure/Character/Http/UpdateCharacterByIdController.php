@@ -23,8 +23,16 @@ class UpdateCharacterByIdController
         $this->commandBus->handle(
             new UpdateCharacterCommand(
                 $characterId,
-                $request->input('name'),
-                $request->input('actor_id')
+                $request->input('characterName'),
+                $request->input('actorId'),
+                $request->input('houseName'),
+                $request->input('nickname'),
+                $request->input('characterImageThumb'),
+                $request->input('characterImageFull'),
+                $request->input('siblings', []),
+                $request->input('parents', []),
+                $request->input('killed', []),
+                $request->input('guardedBy', [])
             )
         );
 

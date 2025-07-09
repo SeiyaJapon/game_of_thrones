@@ -19,10 +19,33 @@ class CreateCharacterService
         $this->characterRepository = $characterRepository;
     }
 
-    public function execute(CharacterId $id, CharacterName $name, ?ActorId $actorId): void
-    {
+    public function execute(
+        CharacterId $id,
+        CharacterName $name,
+        ?ActorId $actorId = null,
+        ?string $houseName = null,
+        ?string $nickname = null,
+        ?string $characterImageThumb = null,
+        ?string $characterImageFull = null,
+        array $siblings = [],
+        array $parents = [],
+        array $killed = [],
+        array $guardedBy = []
+    ): void {
         $this->characterRepository->save(
-            new Character($id, $name, $actorId)
+            new Character(
+                $id,
+                $name,
+                $actorId,
+                $houseName,
+                $nickname,
+                $characterImageThumb,
+                $characterImageFull,
+                $siblings,
+                $parents,
+                $killed,
+                $guardedBy
+            )
         );
     }
 }

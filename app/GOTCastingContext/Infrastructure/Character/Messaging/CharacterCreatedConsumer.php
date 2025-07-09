@@ -35,7 +35,15 @@ class CharacterCreatedConsumer
             $character = new Character(
                 new CharacterId($payload['data']['id']),
                 new CharacterName($payload['data']['name']),
-                isset($payload['data']['actor_id']) ? new ActorId($payload['data']['actor_id']) : null
+                isset($payload['data']['actor_id']) ? new ActorId($payload['data']['actor_id']) : null,
+                $payload['data']['house_name'] ?? null,
+                $payload['data']['nickname'] ?? null,
+                $payload['data']['character_image_thumb'] ?? null,
+                $payload['data']['character_image_full'] ?? null,
+                $payload['data']['siblings'] ?? [],
+                $payload['data']['parents'] ?? [],
+                $payload['data']['killed'] ?? [],
+                $payload['data']['guarded_by'] ?? []
             );
 
             $this->searchRepository->index($character);

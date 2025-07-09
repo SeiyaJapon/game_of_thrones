@@ -22,8 +22,16 @@ class UpdateCharacterCommandHandler
     {
         $this->updateCharacterByIdService->execute(
             new CharacterId($command->id()),
-            $command->name() !== null ? new CharacterName($command->name()) : null,
-            new ActorId($command->getActorId())
+            $command->name() ? new CharacterName($command->name()) : null,
+            $command->actorId() ? new ActorId($command->actorId()) : null,
+            $command->houseName(),
+            $command->nickname(),
+            $command->characterImageThumb(),
+            $command->characterImageFull(),
+            $command->siblings(),
+            $command->parents(),
+            $command->killed(),
+            $command->guardedBy()
         );
     }
 }
