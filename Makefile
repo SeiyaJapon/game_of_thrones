@@ -39,7 +39,7 @@ rebuild-all: ## Rebuilds all the containers
 	U_ID=${UID} docker compose build
 
 prepare: ## Runs backend commands
-	docker compose exec composer install
+	docker compose exec $(DOCKER_BE) composer install
 
 create-network:
 	docker network create whalar-network || true
@@ -54,7 +54,6 @@ destroy: ## Full cleanup
 
 install-components:
 	docker compose exec $(DOCKER_BE) php artisan migrate
-	docker compose exec $(DOCKER_BE) php artisan passport:install --uuids
 	docker compose exec $(DOCKER_BE) php artisan migrate --seed
 
 migrate:

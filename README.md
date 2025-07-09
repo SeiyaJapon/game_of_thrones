@@ -64,6 +64,10 @@ make up
 ```
 
 ### 🏗️ Step 3: Setup the Citadel
+To run installation:
+```bash
+make prepare
+```
 To run migrations:
 ```bash
 make migrate
