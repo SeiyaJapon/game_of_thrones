@@ -100,7 +100,7 @@ All your services must pass... or be sent to the Wall.
   **Body example:**
   ```json
   {
-    "q": "tyrion"
+    "query": "tyrion"
   }
   ```
 
@@ -115,7 +115,7 @@ All your services must pass... or be sent to the Wall.
   **Body example:**
   ```json
   {
-    "q": "stark"
+    "query": "stark"
   }
   ```
 
