@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Actor extends Model
 {
-    protected $fillable = ['id', 'name', 'biography'];
+    public $fillable = ['id', 'name', 'biography'];
 
     public $incrementing = false;
-    protected $keyType = 'string';
+    public $keyType = 'string';
 
     //    Generación automática de UUID
     //    protected static function boot() {

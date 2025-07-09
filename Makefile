@@ -61,7 +61,17 @@ migrate:
 	docker compose exec $(DOCKER_BE) php artisan migrate
 
 seed:
-	docker compose exec $(DOCKER_BE) php artisan migrate
+	docker compose exec $(DOCKER_BE) php artisan migrate --seed
+
+fresh: ## php artisan migrate:fresh
+	docker compose exec $(DOCKER_BE) php artisan migrate:fresh
+
+fresh-seed: ## php artisan migrate:fresh --seed
+	@make clean-elasticsearch
+	docker compose exec $(DOCKER_BE) php artisan migrate:fresh --seed
+
+clean-elasticsearch:
+	curl -X DELETE "http://localhost:9200/_all"
 
 consumer:
 	docker compose exec $(DOCKER_BE) php artisan rabbitmq:consume-all
@@ -87,12 +97,6 @@ create-project: ## create project
 dumpauto:
 	docker compose exec $(DOCKER_BE) composer dumpautoload
 
-fresh: ## php artisan migrate:fresh
-	docker compose exec $(DOCKER_BE) php artisan migrate:fresh
-
-fresh-seed: ## php artisan migrate:fresh --seed
-	docker compose exec $(DOCKER_BE) php artisan migrate:fresh --seed
-
 clear-all:
 	docker compose exec $(DOCKER_BE) php artisan config:clear && php artisan config:cache && php artisan route:clear && php artisan route:cache
 
@@ -101,3 +105,6 @@ logs: ## Tails Laravel logs
 
 enter: ## ssh's into the be container
 	U_ID=${UID} docker exec -it --user ${UID} ${DOCKER_BE} bash
+
+test: ## Runs the tests
+	docker compose exec $(DOCKER_BE) php artisan test

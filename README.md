@@ -1,41 +1,130 @@
-# GOTCasting
+# 🛡️ Game of Thrones - RESTful Casting API
 
-GOTCasting is a PHP (Laravel) application that manages the casting of characters and actors for a fiction series. The project follows **DDD (Domain-Driven Design)** and **CQRS (Command Query Responsibility Segregation)** principles to maintain a clean, scalable, and decoupled architecture.
+## ✏️ A Backend Challenge Where You Win or You Die (Deploying)
 
-## Architecture
+---
 
-- **DDD:** The domain is carefully modeled, separating entities, value objects, domain services, and repositories.
-- **CQRS:** Commands and queries are decoupled, allowing each part to be optimized and scaled independently.
-- **Domain Events:** Relevant changes in the domain generate events that are propagated to other systems.
+## 📖 Introduction
+This project is part of a backend recruitment test. The goal was to implement a RESTful API for managing actors and characters from the Game of Thrones universe, based on a provided JSON dataset.
 
-## Technologies
+But here’s the twist: no lazy magic, no out-of-the-box frameworks doing the job with annotations and dragons 🐉 — just honest code, events, queues, and databases. Like the Old Gods intended.
 
-- **PHP (Laravel):** Main framework for the application.
-- **PostgreSQL:** Relational database for primary storage.
-- **Elasticsearch:** Search engine for fast and advanced queries.
-- **RabbitMQ:** Messaging broker for asynchronous communication between services.
+---
 
-## Synchronization with Elasticsearch
+## 🛠️ Stack Used
 
-Whenever a relevant change occurs in the domain (for example, linking a character to an actor), an event is published through **RabbitMQ**. A consumer processes these events and updates the indices in **Elasticsearch** to keep the information synchronized and available for efficient searches.
+- ✅ **Laravel** (Because PHP deserves redemption)
+- 🏛️ **Domain-Driven Design (DDD)**
+- 🪓 **CQRS** (Command Query Responsibility Segregation, not a random acronym from Valyria)
+- 📡 **RabbitMQ** (for messaging between the Realms)
+- 🔍 **Elasticsearch** (for fast searches, because Ravens are slow)
+- 🐘 **PostgreSQL** (our persistent Maester library)
+- 🐳 **Docker + Docker Compose** (All the kingdoms in one config)
 
-## Installation
+---
 
-1. Clone the repository.
-2. Install dependencies with Composer and npm.
-3. Configure environment variables for PostgreSQL, Elasticsearch, and RabbitMQ.
-4. Run migrations and seeders.
+## 🧩 Architecture
 
-## Useful scripts
+- All **writes** (Create, Update, Delete) go to **PostgreSQL**.
+- All **reads** (Search, List, Get by ID) go to **Elasticsearch**.
+- Events like `CharacterCreated`, `ActorUpdated`, etc., are emitted via **RabbitMQ**, and consumers handle Elasticsearch sync.
 
-- `php artisan migrate`
-- `php artisan db:seed`
-- `npm install && npm run dev`
+---
 
-## Contributing
+## ❗ Note about CQRS consistency
+To keep it simple (and humanly testable), the system doesn't wait for Elasticsearch confirmation before allowing reads.
+In a more robust setup, you’d emit a "sync-complete" event after Elasticsearch updates and wait for it before reading.
+But hey, this is a test, not a siege of Winterfell.
 
-Contributions are welcome. Please follow the architecture and best practices established in the project.
+---
 
-## License
+## 🧪 Testing
 
-MIT
+Unit tests cover the application and domain logic.
+
+Integration tests check the full flow: DB ↔ Queue ↔ Search.
+
+Use:
+```bash
+make test
+```
+to unleash the tests. May your assertions pass and your mocks behave.
+
+---
+
+## 🚀 Setup Instructions
+
+### 📦 Step 1: Unpack the Realm
+Unzip the project folder you’ve received. Inside lies the fate of Westeros.
+
+### 🐳 Step 2: Build the Seven Kingdoms
+```bash
+make create-network
+make up
+```
+
+### 🏗️ Step 3: Setup the Citadel
+To run migrations:
+```bash
+make migrate
+```
+If you want to seed the database with the Game of Thrones characters:
+```bash
+make fresh-seed
+```
+
+### 🔔 Step 4: Call the Ravens (start the consumers)
+```bash
+make consumer
+```
+They will listen to changes and update Elasticsearch faster than Varys’ little birds.
+
+### 🧪 Step 5: Testing the Realm
+```bash
+make test
+```
+All your services must pass... or be sent to the Wall.
+
+---
+
+## 📡 API Endpoints Summary
+
+### 🎭 Actors
+- `POST /actors` – Add actor
+- `GET /actors/{id}` – Get actor by ID
+- `PUT /actors/{id}` – Update actor
+- `DELETE /actors/{id}` – Delete actor
+- `GET /actors` – List all
+- `GET /actors/search?q=tyrion` – Search by query
+
+### 🧝 Characters
+- `POST /characters` – Add character
+- `GET /characters/{id}` – Get character by ID
+- `PUT /characters/{id}` – Update character
+- `DELETE /characters/{id}` – Delete character
+- `GET /characters` – List all
+- `GET /characters/search?q=stark` – Search by query
+
+### ⛓️ Linking
+- `POST /characters/{characterId}/link-to-actor/{actorId}` – Assign an actor to a character (No magic, just plain drama)
+
+---
+
+## 💡 Notes & Easter Eggs
+
+- All IDs are UUIDs. We don't trust sequential numbers — they might be White Walkers in disguise.
+- The code is structured in Bounded Contexts (like Houses in Westeros). Check `GOTCastingContext`.
+- Queries and Commands are handled separately, as prophesied by the CQRS Lord Commander.
+- Events are dispatched manually — no unsullied frameworks doing it for us.
+
+---
+
+## 📜 Final Thoughts
+This test isn't just about delivering a working API. It's about showing how you'd handle real-world challenges like sync, architecture, and not turning your app into a Red Wedding.
+
+Hope you enjoy reviewing this project as much as I enjoyed building it. If anything breaks, just remember: The night is dark and full of bugs.
+
+---
+
+## 🧙 Credits
+Developed by **SeiyaJapon** — who definitely doesn't want to rule the Iron Throne, just push good code to production.
